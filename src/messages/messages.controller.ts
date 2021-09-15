@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { CreateMessageDTO } from './DTO/CreateMessageDTO';
-import { MessagesService } from './messages.service';
-import { Message } from 'src/messages/interfaces/message.interface';
+import { Body, Controller, Get, Post } from '@nestjs/common'
+import { CreateMessageDTO } from './DTO/CreateMessageDTO'
+import { MessagesService } from './messages.service'
+import { Message } from 'src/messages/interfaces/message.interface'
 
 @Controller('messages')
 export class MessagesController {
@@ -9,11 +9,11 @@ export class MessagesController {
 
   @Post()
   async create(@Body() createMessageDto: CreateMessageDTO) {
-    this.messagesService.create(createMessageDto);
+    this.messagesService.create(createMessageDto)
   }
 
   @Get()
   async findAll(): Promise<Message[]> {
-    return this.messagesService.findAll();
+    return this.messagesService.findAll()
   }
 }

@@ -1,5 +1,5 @@
-import { Get, Controller, Render } from '@nestjs/common';
-import { MessagesService } from './messages/messages.service';
+import { Get, Controller, Render } from '@nestjs/common'
+import { MessagesService } from './messages/messages.service'
 
 @Controller()
 export class AppController {
@@ -8,7 +8,7 @@ export class AppController {
   @Get()
   @Render('index')
   async root() {
-    const messages = await this.messagesService.findAll();
-    return { messages: messages };
+    const messages = await this.messagesService.findAll()
+    return { messages: messages }
   }
 }
