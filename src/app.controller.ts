@@ -8,7 +8,7 @@ export class AppController {
   @Get()
   @Render('index')
   async root() {
-    const messages = await this.messagesService.findAll()
-    return { messages: messages }
+    const messages = await this.messagesService.findAll();
+    return { messages: messages };
   }
 }
