@@ -1,18 +1,21 @@
 import { Sse, Body, Controller, Get, Post, MessageEvent } from '@nestjs/common'
-import { Observable, interval } from 'rxjs'
+import { Subject, Observable, interval,from, of } from 'rxjs'
 import { CreateMessageDTO } from './DTO/CreateMessageDTO'
 import { MessagesService } from './messages.service'
 import { Message } from 'src/messages/interfaces/message.interface'
-import { map } from 'rxjs/operators'
+import { map, flatMap, switchMap } from 'rxjs/operators'
 
 @Controller('messages')
 export class MessagesController {
+
+  private newMessage: Subject<Message> = new Subject()
+
   constructor(private messagesService: MessagesService) {}
 
   @Post()
   async create(@Body() createMessageDto: CreateMessageDTO) {
-    console.log(createMessageDto)
     this.messagesService.create(createMessageDto)
+    this.newMessage.next(createMessageDto)
   }
 
   @Get()
@@ -20,10 +23,12 @@ export class MessagesController {
     return this.messagesService.findAll()
   }
 
-  @Sse()
+  @Sse('/sse')
   serverSentMessages(): Observable<MessageEvent> {
-    return interval(1000).pipe(
-      map((_) => ({ data: { message: 'hello', username: 'me' } }))
-    );
+    return this.newMessage.pipe(
+      map((message: Message) => {
+        return { data: message }
+      })
+    )
   }
 }

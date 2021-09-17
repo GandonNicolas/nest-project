@@ -6,7 +6,7 @@
   </head>
   <body>
     <main class="container">
-      <ul>
+      <ul id="list">
         {{#each messages}}
             <li>{{this.username}} : {{ this.message }}</li>
         {{/each}}
@@ -29,6 +29,15 @@
           body: JSON.stringify({message, username}),
           headers: {'Content-Type': 'application/json'}
         })
+      }
+
+      const eventSource = new EventSource('/messages/sse');
+      eventSource.onmessage = ({ data }) => {
+        data = JSON.parse(data)
+        const list = document.getElementById('list')
+        const element = document.createElement('li')
+        element.innerHTML = `${data.username}: ${data.message}`
+        list.appendChild(element)
       }
     </script>
   </body>
