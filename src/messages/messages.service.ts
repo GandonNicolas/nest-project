@@ -8,7 +8,7 @@ export class MessagesService {
   private db
 
   constructor() {
-    this.db = new Database()
+    this.db = new Database('')
   }
 
   async create(message: Message) {
