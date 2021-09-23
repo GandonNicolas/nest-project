@@ -8,7 +8,7 @@
     <main class="container">
       <ul id="list">
       </ul>
-      <form action="/messages" method="POST" id="message">
+      <form action="/messages" method="POST" id="message" onsubmit="envoieMessage(event)">
         <input type="text" name="message"/>
         <input type="hidden" name="username" value="Nicolas"/>
         <input type="submit" value="Send" />
@@ -34,7 +34,7 @@
           })
         })
 
-      form.onsubmit = function envoieMessage(event) {
+      function envoieMessage(event) {
         event.preventDefault()
 
         const message = document.querySelectorAll('[name=message]')[0].value
